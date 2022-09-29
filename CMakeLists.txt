@@ -69,3 +69,16 @@ add_subdirectory(tools)
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif (BUILD_EXAMPLES)
+
+ADD_CUSTOM_TARGET(crashpad)
+ADD_DEPENDENCIES(crashpad 
+  crashpad_util 
+  crashpad_compat 
+  crashpad_snapshot 
+  crashpad_minidump 
+  mini_chromium 
+  crashpad_client 
+  crashpad_handler 
+  crashpad_tools)
+
+
