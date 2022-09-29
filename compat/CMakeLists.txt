@@ -37,6 +37,15 @@ if (ANDROID)
     )
 endif(ANDROID)
 
+if(LINUX)
+    list(APPEND CRASHPAD_COMPAT_LIBRARY_FILES
+        ./linux/sys/mman_memfd_create.cc
+        ./linux/sys/mman.h
+        ./linux/sys/ptrace.h
+        ./linux/sys/user.h
+    )
+endif(LINUX)
+
 if (WIN32)
     list(APPEND CRASHPAD_COMPAT_LIBRARY_FILES
         ./win/getopt.h
@@ -52,24 +61,24 @@ if (WIN32)
     )
 endif (WIN32)
 
-add_library(compat_incl INTERFACE)
-add_library(compat OBJECT)
+add_library(crashpad_compat_incl INTERFACE)
+add_library(crashpad_compat OBJECT)
 
-target_sources(compat PRIVATE ${CRASHPAD_COMPAT_LIBRARY_FILES})
-target_link_libraries(compat PUBLIC util compat_incl)
+target_sources(crashpad_compat PRIVATE ${CRASHPAD_COMPAT_LIBRARY_FILES})
+target_link_libraries(crashpad_compat PUBLIC crashpad_util crashpad_compat_incl)
 
 if (LINUX)
-    target_include_directories(compat_incl INTERFACE linux)
-    target_include_directories(compat_incl INTERFACE non_win)
+    target_include_directories(crashpad_compat_incl INTERFACE linux)
+    target_include_directories(crashpad_compat_incl INTERFACE non_win)
 endif (LINUX)
 
 if (ANDROID)
-    target_include_directories(compat_incl INTERFACE android)
+    target_include_directories(crashpad_compat_incl INTERFACE android)
 endif (ANDROID)
 
 if (WIN32)
-    target_include_directories(compat_incl INTERFACE win)
+    target_include_directories(crashpad_compat_incl INTERFACE win)
 else ()
-    target_include_directories(compat_incl INTERFACE non_win)
+    target_include_directories(crashpad_compat_incl INTERFACE non_win)
 endif (WIN32)
 

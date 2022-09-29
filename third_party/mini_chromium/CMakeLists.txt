@@ -117,7 +117,7 @@ if (WIN32)
 endif (WIN32)
 
 add_library(mini_chromium OBJECT ${CRASHPAD_MINI_CHROMIUM_LIBRARY_FILES})
-target_compile_features(mini_chromium PUBLIC cxx_std_14)
+target_compile_features(mini_chromium PRIVATE cxx_std_14)
 target_include_directories(mini_chromium PUBLIC mini_chromium)
 
 if (APPLE)

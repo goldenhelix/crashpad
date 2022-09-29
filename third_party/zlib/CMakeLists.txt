@@ -41,7 +41,7 @@ add_library(zlib STATIC)
 target_sources(zlib PRIVATE
     ${CRASHPAD_ZLIB_LIBRARY_FILES}
 )
-target_compile_features(zlib PUBLIC cxx_std_14)
+target_compile_features(zlib PRIVATE cxx_std_14)
 
 target_compile_definitions(zlib PUBLIC CRASHPAD_ZLIB_SOURCE_EMBEDDED)
 target_compile_definitions(zlib PUBLIC ZLIB_CONST)

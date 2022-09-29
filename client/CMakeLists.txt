@@ -45,14 +45,14 @@ if (WIN32)
     )
 endif (WIN32)
 
-add_library(client STATIC ${CRASHPAD_CLIENT_LIBRARY_FILES})
+add_library(crashpad_client STATIC ${CRASHPAD_CLIENT_LIBRARY_FILES})
 
-target_compile_features(client PUBLIC cxx_std_14)
+target_compile_features(crashpad_client PRIVATE cxx_std_14)
 
-target_link_libraries(client PUBLIC mini_chromium util compat)
-target_include_directories(client PUBLIC ..)
+target_link_libraries(crashpad_client PUBLIC mini_chromium crashpad_util crashpad_compat)
+target_include_directories(crashpad_client PRIVATE ..)
 
 if (LINUX)
-    target_link_libraries(client PUBLIC Threads::Threads)
+  target_link_libraries(crashpad_client PRIVATE Threads::Threads)
 endif (LINUX)
 

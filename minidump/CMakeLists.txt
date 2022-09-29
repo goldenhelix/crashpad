@@ -54,11 +54,11 @@ set(CRASHPAD_MINIDUMP_LIBRARY_FILES
     ./minidump_writer_util.h
 )
 
-add_library(minidump OBJECT ${CRASHPAD_MINIDUMP_LIBRARY_FILES})
-target_compile_features(minidump PUBLIC cxx_std_14)
-target_include_directories(minidump PRIVATE ..)
-target_link_libraries(minidump PUBLIC mini_chromium compat)
+add_library(crashpad_minidump OBJECT ${CRASHPAD_MINIDUMP_LIBRARY_FILES})
+target_compile_features(crashpad_minidump PRIVATE cxx_std_14)
+target_include_directories(crashpad_minidump PRIVATE ..)
+target_link_libraries(crashpad_minidump PUBLIC mini_chromium crashpad_compat)
 
 if (LINUX)
-    target_link_libraries(minidump PUBLIC snapshot)
+    target_link_libraries(crashpad_minidump PUBLIC crashpad_snapshot)
 endif (LINUX)

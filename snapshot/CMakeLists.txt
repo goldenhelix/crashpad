@@ -166,17 +166,17 @@ if (WIN32)
     )
 endif (WIN32)
 
-add_library(snapshot OBJECT ${CRASHPAD_SNAPSHOT_LIBRARY_FILES})
+add_library(crashpad_snapshot OBJECT ${CRASHPAD_SNAPSHOT_LIBRARY_FILES})
 
 if (ANDROID)
-    target_compile_features(snapshot PUBLIC cxx_std_17)
+  target_compile_features(crashpad_snapshot PRIVATE cxx_std_17)
 else()
-    target_compile_features(snapshot PUBLIC cxx_std_14)
+  target_compile_features(crashpad_snapshot PRIVATE cxx_std_14)
 endif()
 
-target_include_directories(snapshot PRIVATE ..)
-target_link_libraries(snapshot PUBLIC mini_chromium util compat client)
+target_include_directories(crashpad_snapshot PRIVATE ..)
+target_link_libraries(crashpad_snapshot PUBLIC mini_chromium crashpad_util crashpad_compat crashpad_client)
 
 if (WIN32)
-    target_link_libraries(snapshot PUBLIC powrprof)
+    target_link_libraries(crashpad_snapshot PUBLIC powrprof)
 endif (WIN32)

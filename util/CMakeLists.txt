@@ -310,8 +310,8 @@ if (WIN32)
 endif (WIN32)
 
 
-add_library(util OBJECT ${CRASHPAD_UTIL_LIBRARY_FILES})
-target_compile_features(util PUBLIC cxx_std_17)
+add_library(crashpad_util OBJECT ${CRASHPAD_UTIL_LIBRARY_FILES})
+target_compile_features(crashpad_util PUBLIC cxx_std_17)
 
 if (APPLE)
     set(DEF_FILES "exc.defs" "mach_exc.defs" "notify.defs")
@@ -354,38 +354,38 @@ if (APPLE)
             DEPENDS
                 "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${CPD}"
         )
-        target_sources(util PRIVATE ${OUTPUT_FILES})
+        target_sources(crashpad_util PRIVATE ${OUTPUT_FILES})
     endforeach()
-    target_include_directories(util PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/")
-    target_link_libraries(util PUBLIC bsm)
+    target_include_directories(crashpad_util PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/")
+    target_link_libraries(crashpad_util PUBLIC bsm)
 endif (APPLE)
 
 if (ANDROID)
-    target_link_libraries(util PUBLIC openssl-android-binary)
+    target_link_libraries(crashpad_util PUBLIC openssl-android-binary)
 endif (ANDROID)
 
 if (UNIX)
-    target_link_libraries(util PUBLIC dl)
+    target_link_libraries(crashpad_util PUBLIC dl crashpad_compat_incl)
 endif (UNIX)
 
 if (WIN32)
-    target_link_libraries(util PUBLIC winhttp version compat_incl)
+    target_link_libraries(crashpad_util PUBLIC winhttp version crashpad_compat_incl)
 endif (WIN32)
 
-target_include_directories(util PUBLIC ..)
-target_link_libraries(util PUBLIC mini_chromium ZLIB::ZLIB backtrace_common)
+target_include_directories(crashpad_util PUBLIC ..)
+target_link_libraries(crashpad_util PUBLIC mini_chromium ZLIB::ZLIB backtrace_common)
 
 if (LINUX AND NOT ANDROID)
     if (CURL_FOUND)
-        target_link_libraries(util PUBLIC curl)
+        target_link_libraries(crashpad_util PUBLIC curl)
     endif (CURL_FOUND)
 
     if (OPENSSL_FOUND)
-        target_compile_definitions(util PUBLIC CRASHPAD_USE_BORINGSSL)
-        target_link_libraries(util PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+        target_compile_definitions(crashpad_util PUBLIC CRASHPAD_USE_BORINGSSL)
+        target_link_libraries(crashpad_util PUBLIC OpenSSL::SSL OpenSSL::Crypto)
     endif (OPENSSL_FOUND)
 endif (LINUX AND NOT ANDROID)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    target_compile_options(util PUBLIC -Wno-multichar)
+    target_compile_options(crashpad_util PUBLIC -Wno-multichar)
 endif ()

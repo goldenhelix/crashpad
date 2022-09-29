@@ -3,8 +3,8 @@ set(CRASHPAD_TOOLS_LIBRARY_FILES
     ./tool_support.h
 )
 
-add_library(tools OBJECT ${CRASHPAD_TOOLS_LIBRARY_FILES})
-target_compile_features(tools PUBLIC cxx_std_14)
+add_library(crashpad_tools OBJECT ${CRASHPAD_TOOLS_LIBRARY_FILES})
+target_compile_features(crashpad_tools PRIVATE cxx_std_14)
 
-target_include_directories(tools PUBLIC ..)
-target_link_libraries(tools PUBLIC mini_chromium backtrace_common util compat snapshot)
+target_include_directories(crashpad_tools PUBLIC ..)
+target_link_libraries(crashpad_tools PUBLIC mini_chromium backtrace_common crashpad_util crashpad_compat crashpad_snapshot)
